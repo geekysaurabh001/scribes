@@ -39,7 +39,7 @@ class Authenticator
     setcookie("access_token", $accessToken, [
       "expires" => time() + ONE_HOUR_IN_SECONDS,
       "path" => "/",
-      "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".saurabhsrivastava.com",
+      "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
       "httponly" => true,
       "secure" => true
     ]);
@@ -54,7 +54,7 @@ class Authenticator
     setcookie("refresh_token", $refreshToken, [
       "expires" => time() + THIRTY_DAYS_IN_SECONDS,
       "path" => "/",
-      "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".saurabhsrivastava.com",
+      "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
       "httponly" => true,
       "secure" => true
     ]);

@@ -101,7 +101,7 @@ $registeredUser = $db->query("SELECT id, public_id, name, username, email FROM u
 setcookie("access_token", $accessToken, [
     "expires" => time() + ONE_HOUR_IN_SECONDS,
     "path" => "/",
-    "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".saurabhsrivastava.com",
+    "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
     "httponly" => true,
     "secure" => true
 ]);
@@ -109,7 +109,7 @@ setcookie("access_token", $accessToken, [
 setcookie("refresh_token", $refreshToken, [
     "expires" => time() + THIRTY_DAYS_IN_SECONDS,
     "path" => "/",
-    "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".saurabhsrivastava.com",
+    "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
     "httponly" => true,
     "secure" => true
 ]);
