@@ -1,0 +1,7 @@
+[language-server.emmet-lsp]
+command = "emmet-language-server"
+args = ["--stdio"]
+
+[[language]]
+name = "php"
+language-servers = [ "intelephense", "emmet-lsp" ]

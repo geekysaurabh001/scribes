@@ -1,0 +1,35 @@
+services:
+  # nginx
+  web:
+    image: nginx:latest
+    container_name: scribes-web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
+      - ./nginx/certs:/etc/nginx/ssl
+  app:
+    container_name: scribes-app
+    build:
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - ./app:/var/www/html
+  db:
+    image: mysql:8.4.4
+    container_name: scribes-db
+    volumes:
+      - mysqldata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: scribes
+      MYSQL_USER: scribes
+      MYSQL_PASSWORD: scribes
+  # redis
+
+volumes:
+  mysqldata:

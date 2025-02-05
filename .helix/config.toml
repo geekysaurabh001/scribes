@@ -1,0 +1,15 @@
+theme = "darcula-solid"
+
+[editor]
+mouse = false
+line-number = "relative"
+auto-format = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+
+[editor.soft-wrap]
+enable = true
+max-wrap = 20 # increase value to reduce forced mid-word wrapping
+max-indent-retain = 40
