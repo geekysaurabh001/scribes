@@ -85,18 +85,17 @@ class Authenticator
 
   protected function setTokens($user)
   {
-    $env = parse_ini_file(basePath(".env"));
     $accessToken = generateJWT([
       "username" => $user["username"],
       "name" => $user["name"],
       "iat" => time(),
       "exp" => time() + ONE_HOUR_IN_SECONDS
-    ], $env["JWT_SECRET"]);
+    ], getenv("JWT_SECRET"));
 
     setcookie("access_token", $accessToken, [
       "expires" => time() + ONE_HOUR_IN_SECONDS,
       "path" => "/",
-      "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
+      "domain" => getenv("APP_ENV") == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
       "httponly" => true,
       "secure" => true
     ]);
@@ -106,12 +105,12 @@ class Authenticator
       "name" => $user["name"],
       "iat" => time(),
       "exp" => time() + THIRTY_DAYS_IN_SECONDS // 60 seconds * 60 minutes * 24 hours * 30 days
-    ], $env["JWT_SECRET"]);
+    ], getenv("JWT_SECRET"));
 
     setcookie("refresh_token", $this->refreshToken, [
       "expires" => time() + THIRTY_DAYS_IN_SECONDS,
       "path" => "/",
-      "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
+      "domain" => getenv("APP_ENV") == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
       "httponly" => true,
       "secure" => true
     ]);

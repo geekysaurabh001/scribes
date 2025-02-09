@@ -1,7 +1,5 @@
 <?php
 
-$env = parse_ini_file(basePath(".env"));
-
 use Core\App;
 use Core\Authenticator;
 use Core\Database;
