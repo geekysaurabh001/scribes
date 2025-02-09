@@ -14,13 +14,13 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY --from=composer:2.8.5 /usr/bin/composer /usr/bin/composer
 
 # Copy Composer files first (helps with caching)
-COPY ./app/composer.json ./app/composer.lock ./
+COPY ./composer.json ./composer.lock ./
 
 # Install dependencies without development packages
 RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
 
 # Copy the rest of the application code
-COPY ./app ./
+COPY . .
 
 # Optimize autoloading
 RUN composer dump-autoload --optimize
