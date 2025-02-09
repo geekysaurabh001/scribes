@@ -12,8 +12,21 @@ $registerIllustrationUrl = $imagekit->url([
   ]
 ]);
 
+$success = $_SESSION["_flash"]["success"] ?? NULL;
+$errors = $_SESSION["_flash"]["errors"] ?? [];
+$data = $_SESSION["_data"]["register"] ?? [];
+
+
+
+unset($_SESSION["_flash"]);
+unset($_SESSION["_data"]);
+
+// dd($data);
+
 view("auth/register/index.view.php", [
   "heading" => "Register",
   "registerIllustrationUrl" => $registerIllustrationUrl,
-  "success" => NULL
+  "success" => $success,
+  "errors" => $errors,
+  "submittedData" => $data
 ]);

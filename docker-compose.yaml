@@ -17,7 +17,7 @@ services:
     volumes:
       - ./app:/var/www/html
   db:
-    image: mysql:8.4.4
+    image: mysql:8.4
     container_name: scribes-db
     volumes:
       - mysqldata:/var/lib/mysql

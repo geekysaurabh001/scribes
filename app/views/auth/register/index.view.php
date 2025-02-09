@@ -10,17 +10,17 @@
     <form class="w-1/2 flex flex-col gap-4 max-w-screen-sm" action="/register" method="post">
       <div class="flex flex-col gap-2">
         <label for="name" class="font-semibold">Name <span class="text-red-700">*</span></label>
-        <input type="text" name="name" id="name" placeholder="Enter your name" class="w-full rounded">
+        <input type="text" name="name" id="name" placeholder="Enter your name" class="w-full rounded" value="<?= $submittedData['name'] ?? '' ?>">
         <span class="text-sm text-red-700"><?php echo $errors["name"] ?? "" ?></span>
       </div>
       <div class="flex flex-col gap-2">
         <label for="username" class="font-semibold">Username <span class="text-red-700">*</span></label>
-        <input type="text" name="username" id="username" placeholder="Enter your username" class="w-full rounded">
+        <input type="text" name="username" id="username" placeholder="Enter your username" class="w-full rounded" value="<?= $submittedData['username'] ?? '' ?>">
         <span class="text-sm text-red-700"><?php echo $errors["username"] ?? "" ?></span>
       </div>
       <div class="flex flex-col gap-2">
         <label for="email" class="font-semibold">Email <span class="text-red-700">*</span></label>
-        <input type="email" name="email" id="email" placeholder="Enter your email" class="w-full rounded">
+        <input type="email" name="email" id="email" placeholder="Enter your email" class="w-full rounded" value="<?= $submittedData['email'] ?? '' ?>">
         <span class="text-sm text-red-700"><?php echo $errors["email"] ?? "" ?></span>
       </div>
       <div class="flex flex-col gap-2">
@@ -38,6 +38,11 @@
         <button type="submit" class="bg-gray-900 text-white px-4 py-3 rounded mt-6">Register</button>
         <?php if ($success): ?>
           <span class="text-sm bg-green-100 rounded text-green-700 mt-6 py-3 px-4"><?= htmlspecialchars($success) ?></span>
+        <?php endif; ?>
+        <?php if (!empty($errors["error"])): ?>
+          <span class="text-sm bg-red-100 rounded text-red-700 mt-6 py-3 px-4">
+            <?= htmlspecialchars($errors["error"], ENT_QUOTES, 'UTF-8') ?>
+          </span>
         <?php endif; ?>
       </div>
     </form>

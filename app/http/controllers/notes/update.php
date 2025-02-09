@@ -62,11 +62,11 @@ if (Validator::array($fileErrors)) {
 if (empty($errors)) {
   $currentUserId = $_SESSION["user"]["id"];
   if ($thumbailPath && $thumbailUrl && $featuredImagePath && $featuredImageUrl) {
-    $db->query("UPDATE `notes` SET title=:title, description=:description, content=:content, thumbnail_url=:thumbnailUrl, thumbnail_path=:thumbnailPath, featured_image_url=:featuredImageUrl, featured_image_path=:featuredImagePath WHERE user_id=:userId AND public_id=:publicId")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $currentUserId, ":thumbnailUrl" => $thumbnailUrl, ":thumbnailPath" => $thumbnailPath, ":featuredImageUrl" => $featuredImageUrl, ":featuredImagePath" => $featuredImagePath, ":publicId" => $publicId, ":table" => "notes"]);
+    $db->query("UPDATE notes SET title=:title, description=:description, content=:content, thumbnail_url=:thumbnailUrl, thumbnail_path=:thumbnailPath, featured_image_url=:featuredImageUrl, featured_image_path=:featuredImagePath WHERE user_id=:userId AND public_id=:publicId")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $currentUserId, ":thumbnailUrl" => $thumbnailUrl, ":thumbnailPath" => $thumbnailPath, ":featuredImageUrl" => $featuredImageUrl, ":featuredImagePath" => $featuredImagePath, ":publicId" => $publicId, ":table" => "notes"]);
   } else {
-    $db->query("UPDATE `notes` SET title=:title, description=:description, content=:content WHERE user_id=:userId AND public_id=:publicId")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $currentUserId, ":publicId" => $publicId, ":table" => "notes"]);
+    $db->query("UPDATE notes SET title=:title, description=:description, content=:content WHERE user_id=:userId AND public_id=:publicId")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $currentUserId, ":publicId" => $publicId, ":table" => "notes"]);
   }
-  $note = $db->query("SELECT public_id, user_id, title, description, content, thumbnail_path, featured_image_path, updated_at FROM `notes` WHERE `public_id`=:publicId")->execute([":publicId" => $publicId])->fetchOrAbort();
+  $note = $db->query("SELECT public_id, user_id, title, description, content, thumbnail_path, featured_image_path, updated_at FROM notes WHERE public_id=:publicId")->execute([":publicId" => $publicId])->fetchOrAbort();
   $success = "Note updated successfully!";
 }
 

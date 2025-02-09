@@ -3,25 +3,82 @@
 
 namespace Core;
 
+use PDOException;
+
 class Authenticator
 {
 
   protected $user;
+  protected $db;
+  protected $refreshToken;
 
-  public function attemptToLocateExistingUser(string $email)
+  public function __construct($db)
   {
-    $this->user = App::resolve(Database::class)->query("SELECT id, public_id, username, name,  email, password FROM `users` WHERE `email`=:email")->execute([":email" => $email])->fetch();
+    $this->db = $db;
+  }
 
-    if (!empty($this->user)) return true;
+  public function attemptToLocateExistingUserByEmail(string $email)
+  {
+    $stmt = $this->db->query("SELECT id, public_id, username, name,  email, password FROM users WHERE email=:email")->execute([":email" => $email]);
+
+    if ($stmt) {
+      $this->user = $stmt->fetch();
+      if (!empty($this->user)) return true;
+    }
 
     return false;
   }
+
+  public function attemptToLocateExistingUserByUsername(string $username)
+  {
+    $stmt = $this->db->query("SELECT * FROM users WHERE username= :username")->execute([
+      ":username" => $username
+    ]);
+    if ($stmt) {
+      $this->user = $stmt->fetch();
+      if ($this->user) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public function attemptToValidatePassword(string $password)
   {
     if (password_verify($password, $this->user["password"])) {
       $this->setTokens($this->user);
-      $this->login($this->user);
+      $this->login($this->user, "Login successful.");
       return true;
+    }
+    return false;
+  }
+
+  public function attemptToRegister(string $name, string $username, string $email, string $password)
+  {
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    $stmt = $this->db->query("INSERT INTO users (public_id, name, username, email, password, refresh_token) VALUES (:publicId, :name, :username, :email, :password, :refresh_token)")->execute([
+      ":name" => $name,
+      ":username" => $username,
+      ":email" => $email,
+      ":password" => $hashedPassword
+    ]);
+
+    if ($stmt) {
+      $stmt2 = $this->db->query("SELECT id, public_id, name, username, email FROM users WHERE username = :username")->execute([
+        ":username" => $username
+      ]);
+
+      if ($stmt2) {
+        $this->user = $stmt2->fetchOrAbort();
+
+        $this->setTokens($this->user);
+        $this->login($this->user, "Registration successful. Auto Login");
+
+        return true;
+      }
+
+      return false;
     }
     return false;
   }
@@ -44,14 +101,14 @@ class Authenticator
       "secure" => true
     ]);
 
-    $refreshToken = generateJWT([
+    $this->refreshToken = generateJWT([
       "username" => $user["username"],
       "name" => $user["name"],
       "iat" => time(),
       "exp" => time() + THIRTY_DAYS_IN_SECONDS // 60 seconds * 60 minutes * 24 hours * 30 days
     ], $env["JWT_SECRET"]);
 
-    setcookie("refresh_token", $refreshToken, [
+    setcookie("refresh_token", $this->refreshToken, [
       "expires" => time() + THIRTY_DAYS_IN_SECONDS,
       "path" => "/",
       "domain" => $env["APP_ENV"] == "development" ? ".scribes.test" : ".scribes-2wfr.onrender.com",
@@ -60,7 +117,7 @@ class Authenticator
     ]);
   }
 
-  protected function login($user)
+  protected function login($user, string $message)
   {
     $_SESSION["user"] = [
       "id" => $user["id"],
@@ -69,7 +126,7 @@ class Authenticator
       "email" => $user["email"],
       "username" => $user["username"]
     ];
-    $_SESSION["_flash"]["success"] = "Login successful.";
+    $_SESSION["_flash"]["success"] = $message;
 
     session_regenerate_id();
   }

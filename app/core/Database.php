@@ -16,7 +16,7 @@ class Database
     {
         try {
             // $dsn = "mysql:unix_socket=$unixSocket;dbname=$dbname;charset=utf8mb4";
-            $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
+            $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
             $options = [
                 PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -59,11 +59,9 @@ class Database
                     unset($params[":table"]);
                 }
             }
-            // if ($this->queryType === 'insert') {
-            //     print_r($this->stmt);
-            //     print_r($params);
-            //     dd($this->stmt->execute($params));
-            // }
+            print_r($this->stmt);
+            print_r($params);
+
             $this->stmt->execute($params);
         } catch (PDOException $e) {
             // Log the exception (optional)
@@ -153,5 +151,46 @@ class Database
         }
 
         return $result;
+    }
+
+    public function init()
+    {
+        try {
+            $this->connection->prepare(
+                "CREATE TABLE IF NOT EXISTS notes (
+                id BIGSERIAL PRIMARY KEY,
+                public_id VARCHAR(12) NOT NULL,
+                title TEXT NOT NULL,
+                user_id BIGINT NOT NULL,
+                description VARCHAR(255) NOT NULL,
+                content TEXT NOT NULL,
+                thumbnail_url TEXT,
+                thumbnail_path TEXT,
+                featured_image_url TEXT,
+                featured_image_path TEXT,
+                created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+                updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+                FOREIGN KEY (user_id) REFERENCES users (id)
+                )"
+            )->execute();
+
+            $this->connection->prepare(
+                "CREATE TABLE IF NOT EXISTS users (
+                id BIGSERIAL PRIMARY KEY,
+                public_id VARCHAR(12),
+                name VARCHAR(255) NOT NULL,
+                username VARCHAR(255) NOT NULL,
+                email TEXT NOT NULL,
+                password TEXT NOT NULL,
+                email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+                refresh_token TEXT NOT NULL,
+                created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+                updated_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+                CONSTRAINT idx_public_id UNIQUE (public_id)
+                )"
+            )->execute();
+        } catch (PDOException $e) {
+            error_log("Table creation error: " . $e->getMessage());
+        }
     }
 }

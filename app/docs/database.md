@@ -11,7 +11,7 @@ The `Database` class is designed to:
 - Establish a database connection using the `PDO` library.
 - Support CRUD operations (INSERT, UPDATE, DELETE, SELECT) with query type detection.
 - Automatically handle the generation of unique public IDs during `INSERT` operations.
-- Validate the existence of `public_id` during `UPDATE`, `DELETE`, and `SELECT` operations.
+- Validate the existence of public_id during `UPDATE`, `DELETE`, and `SELECT` operations.
 
 ---
 
@@ -61,10 +61,10 @@ Executes a prepared query. Depending on the query type, additional checks and mo
 
 1. **INSERT Queries:**
 
-   - Automatically generate a `public_id` if not provided in the `$params`.
+   - Automatically generate a public_id if not provided in the `$params`.
 
 2. **UPDATE, DELETE, and SELECT Queries:**
-   - Validate the existence of the `public_id` in the database.
+   - Validate the existence of the public_id in the database.
 
 ---
 
@@ -112,7 +112,7 @@ Returns `true` if the query type is `SELECT`.
 public function handleInsertParams(array $params): array
 ```
 
-Ensures that a `public_id` is included in the parameters for an `INSERT` query. If not provided, it generates a unique ID using the `NanoIdGenerator` class.
+Ensures that a public_id is included in the parameters for an `INSERT` query. If not provided, it generates a unique ID using the `NanoIdGenerator` class.
 
 ### Validate Public ID for Other Operations
 
@@ -120,7 +120,7 @@ Ensures that a `public_id` is included in the parameters for an `INSERT` query. 
 private function validatePublicIdExists(string $publicId, string $table = 'users', string $column = 'public_id'): void
 ```
 
-Checks whether the provided `public_id` exists in the specified table and column. Throws an exception if the ID is not found.
+Checks whether the provided public_id exists in the specified table and column. Throws an exception if the ID is not found.
 
 ---
 
@@ -130,7 +130,7 @@ Checks whether the provided `public_id` exists in the specified table and column
 public function isUniquePublicId(string $id, string $table = 'users', string $column = 'public_id'): bool
 ```
 
-Determines whether a given `public_id` is unique by querying the database.
+Determines whether a given public_id is unique by querying the database.
 
 ### SQL Injection Prevention
 
@@ -184,7 +184,7 @@ $db->query('INSERT INTO users (name, email, public_id) VALUES (:name, :email, :p
    ->execute(['name' => 'John Doe', 'email' => 'john.doe@example.com']);
 ```
 
-If `public_id` is not provided, it will be generated automatically.
+If public_id is not provided, it will be generated automatically.
 
 ### Update Operation
 
@@ -193,7 +193,7 @@ $db->query('UPDATE users SET name = :name WHERE public_id = :public_id')
    ->execute(['name' => 'Jane Doe', 'public_id' => 'some-public-id']);
 ```
 
-If the `public_id` does not exist, an exception will be thrown.
+If the public_id does not exist, an exception will be thrown.
 
 ### Select Operation
 

@@ -13,7 +13,7 @@ if (!$_GET["id"]) {
   exit();
 }
 
-$note = $db->query("SELECT public_id, user_id, title, description, content, thumbnail_path, featured_image_path, updated_at FROM `notes` WHERE `public_id`=:publicId")->execute([":publicId" => trim($_GET["id"])])->fetchOrAbort();
+$note = $db->query("SELECT public_id, user_id, title, description, content, thumbnail_path, featured_image_path, updated_at FROM notes WHERE public_id=:publicId")->execute([":publicId" => trim($_GET["id"])])->fetchOrAbort();
 
 
 if (is_array($note) && empty($note)) {

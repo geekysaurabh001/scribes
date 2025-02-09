@@ -12,12 +12,12 @@ $password = htmlspecialchars(trim($_POST["password"]));
 
 
 $form = new LoginForm();
-$auth = new Authenticator();
+$auth = new Authenticator(App::resolve(Database::class));
 
 if ($form->validate($email, $password)) {
-    if ($auth->attemptToLocateExistingUser($email)) {
+    if ($auth->attemptToLocateExistingUserByEmail($email)) {
         if ($auth->attemptToValidatePassword($password)) {
-            redirect("/");
+            redirect("/notes");
         }
         $form->addError("password", "Password doesn't match");
         goto errors;

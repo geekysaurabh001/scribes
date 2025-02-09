@@ -24,6 +24,11 @@
                 <?php if ($success): ?>
                     <span class="text-sm bg-green-100 rounded text-green-700 mt-6 py-3 px-4"><?= htmlspecialchars($success) ?></span>
                 <?php endif; ?>
+                <?php if (!empty($errors["error"])): ?>
+                    <span class="text-sm bg-red-100 rounded text-red-700 mt-6 py-3 px-4">
+                        <?= htmlspecialchars($errors["error"], ENT_QUOTES, 'UTF-8') ?>
+                    </span>
+                <?php endif; ?>
             </div>
         </form>
         <aside class="w-1/2">

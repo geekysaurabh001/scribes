@@ -57,10 +57,10 @@ if (empty($errors)) {
   $userId = $_SESSION["user"]["id"];
 
   if ($thumbailPath && $thumbailUrl && $featuredImagePath && $featuredImageUrl) {
-    $db->query("INSERT INTO `notes` (title, description, content, user_id, public_id, thumbnail_url, thumbnail_path, featured_image_url, featured_image_path) VALUES(:title, :description, :content, :userId, :publicId, :thumbnailUrl, :thumbnailPath, :featuredImageUrl, :featuredImagePath)")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $userId, ":thumbnailUrl" => $thumbnailUrl, ":thumbnailPath" => $thumbnailPath, ":featuredImageUrl" => $featuredImageUrl, ":featuredImagePath" => $featuredImagePath]);
+    $db->query("INSERT INTO notes (title, description, content, user_id, public_id, thumbnail_url, thumbnail_path, featured_image_url, featured_image_path) VALUES(:title, :description, :content, :userId, :publicId, :thumbnailUrl, :thumbnailPath, :featuredImageUrl, :featuredImagePath)")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $userId, ":thumbnailUrl" => $thumbnailUrl, ":thumbnailPath" => $thumbnailPath, ":featuredImageUrl" => $featuredImageUrl, ":featuredImagePath" => $featuredImagePath]);
   } else {
     // dd("here");
-    $db->query("INSERT INTO `notes` (title, description, content, user_id, public_id) VALUES(:title, :description, :content, :userId, :publicId)")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $userId]);
+    $db->query("INSERT INTO notes (title, description, content, user_id, public_id) VALUES(:title, :description, :content, :userId, :publicId)")->execute([":title" => trim($_POST["title"]), ":description" => trim($_POST["description"]), ":content" => trim($_POST["content"]), ":userId" => $userId]);
   }
   $success = "Notes created successfully!";
 }

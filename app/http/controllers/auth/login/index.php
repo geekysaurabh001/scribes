@@ -16,8 +16,6 @@ $success = $_SESSION["_flash"]["success"] ?? NULL;
 $errors = $_SESSION["_flash"]["errors"] ?? [];
 $data = $_SESSION["_data"]["login"] ?? [];
 
-// dd($errors);
-
 unset($_SESSION["_flash"]);
 unset($_SESSION["_data"]);
 
