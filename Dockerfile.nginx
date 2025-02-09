@@ -1,0 +1,10 @@
+FROM nginx:alpine
+
+# Copy Nginx configuration
+COPY ./nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 10000 for Render
+EXPOSE 10000
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]

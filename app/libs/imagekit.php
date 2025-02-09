@@ -2,7 +2,6 @@
 
 
 $config = require basePath("libs/config.php");
-require basePath("vendor/autoload.php");
 
 use ImageKit\ImageKit;
 

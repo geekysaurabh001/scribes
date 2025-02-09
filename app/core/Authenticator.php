@@ -57,7 +57,7 @@ class Authenticator
   {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $this->db->query("INSERT INTO users (public_id, name, username, email, password, refresh_token) VALUES (:publicId, :name, :username, :email, :password, :refresh_token)")->execute([
+    $stmt = $this->db->query("INSERT INTO users (public_id, name, username, email, password) VALUES (:publicId, :name, :username, :email, :password)")->execute([
       ":name" => $name,
       ":username" => $username,
       ":email" => $email,
@@ -68,7 +68,7 @@ class Authenticator
       $stmt2 = $this->db->query("SELECT id, public_id, name, username, email FROM users WHERE username = :username")->execute([
         ":username" => $username
       ]);
-
+      // dd($stmt2);
       if ($stmt2) {
         $this->user = $stmt2->fetchOrAbort();
 

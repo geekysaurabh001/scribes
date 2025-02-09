@@ -9,6 +9,7 @@ $container = new Container();
 
 $container->bind("Core\Database", function () {
   $config = require basePath("libs/config.php");
+
   return new Database($config["database"]["host"], $config["database"]["port"], $config["database"]["dbname"], $config["database"]["user"], $config["database"]["password"]);
 });
 

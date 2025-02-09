@@ -8,28 +8,27 @@ services:
       - "443:443"
     volumes:
       # - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/conf.d/:/etc/nginx/conf.d/:ro
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./nginx/certs:/etc/nginx/ssl
   app:
     container_name: scribes-app
     build:
-      dockerfile: ./php/Dockerfile
+      dockerfile: ./Dockerfile
     volumes:
       - ./app:/var/www/html
   db:
-    image: mysql:8.4
+    image: postgres:16.6
     container_name: scribes-db
     volumes:
-      - mysqldata:/var/lib/mysql
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - "3306:3306"
+      - "5432:5432"
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: scribes
-      MYSQL_USER: scribes
-      MYSQL_PASSWORD: scribes
+      POSTGRES_DB: scribes
+      POSTGRES_USER: scribes
+      POSTGRES_PASSWORD: scribes
   # redis
 
 volumes:
-  mysqldata:
+  pgdata:

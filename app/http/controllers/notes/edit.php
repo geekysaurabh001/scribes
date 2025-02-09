@@ -36,7 +36,8 @@ $notesIllustrationUrl = $imagekit->url([
         ]
     ]
 ]);
-
+// $errors = $_SESSION["_flash"]["errors"] ?? [];
+// $data = $_SESSION["_data"]["note_edit"] ?? [];
 view("notes/edit.view.php", [
     "heading" => $note["title"],
     "note" => $note,

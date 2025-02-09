@@ -59,9 +59,10 @@ class Database
                     unset($params[":table"]);
                 }
             }
-            print_r($this->stmt);
-            print_r($params);
-
+            // echo "<pre>";
+            // var_dump($this->stmt);
+            // var_dump($params);
+            // echo "</pre>";
             $this->stmt->execute($params);
         } catch (PDOException $e) {
             // Log the exception (optional)

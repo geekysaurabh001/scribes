@@ -10,17 +10,17 @@
     <form class="w-1/2 flex flex-col gap-4 max-w-screen-sm" action="/notes" method="POST" enctype="multipart/form-data">
       <div class="flex flex-col gap-2">
         <label for="title" class="font-semibold">Title <span class="text-red-700">*</span></label>
-        <input type="text" name="title" id="title" class="rounded" placeholder="Enter note title" value="<? echo $_POST["title"] ?? NULL; ?>">
+        <input type="text" name="title" id="title" class="rounded" placeholder="Enter note title" value="<? echo $data["title"] ?? NULL; ?>">
         <span class="text-sm text-red-700"><?php echo $errors["title"] ?? "" ?></span>
       </div>
       <div class="flex flex-col gap-2">
         <label for="description" class="font-semibold">Description <span class="text-red-700">*</span></label>
-        <input type="text" name="description" id="description" class="rounded" placeholder="Enter note short description" value="<? echo $_POST["description"] ?? NULL; ?>">
+        <input type="text" name="description" id="description" class="rounded" placeholder="Enter note short description" value="<? echo $data["description"] ?? NULL; ?>">
         <span class="text-sm text-red-700"><?php echo $errors["description"] ?? "" ?></span>
       </div>
       <div class="flex flex-col gap-2">
         <label for="content">Content <span class="text-red-700">*</span></label>
-        <textarea rows="5" name="content" id="content" class="rounded" placeholder="Enter note content"><?php echo $_POST["content"] ?? NULL; ?></textarea>
+        <textarea rows="5" name="content" id="content" class="rounded" placeholder="Enter note content"><?php echo $data["content"] ?? NULL; ?></textarea>
         <span class="text-sm text-red-700"><?php echo $errors["content"] ?? "" ?></span>
       </div>
       <!-- <div class="flex flex-col gap-2">

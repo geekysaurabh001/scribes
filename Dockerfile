@@ -17,7 +17,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY --from=composer:2.8.5 /usr/bin/composer /usr/bin/composer
 
 # Copy Composer files first (helps with caching)
-COPY ./composer.json ./composer.lock ./
+COPY ./app/composer.json ./app/composer.lock ./
 
 # Install dependencies without development packages
 RUN composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
@@ -29,8 +29,8 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # Expose the required port for Render (10000)
-EXPOSE 9000
+# EXPOSE 9000
 
-# Start PHP-FPM
-# CMD ["php-fpm"]
-CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
+# # Start PHP-FPM
+# # CMD ["php-fpm"]
+# CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
