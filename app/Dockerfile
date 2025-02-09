@@ -2,7 +2,9 @@
 FROM php:8.4.3-fpm-alpine
 
 # Install required PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+# Install required PHP extensions (Add `pdo_pgsql` for PostgreSQL)
+RUN apk add --no-cache postgresql-dev \
+    && docker-php-ext-install pdo pdo_pgsql
 
 # Set the working directory inside the container
 WORKDIR /var/www/html
@@ -26,8 +28,8 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # Expose the required port for Render (10000)
-EXPOSE 10000
+EXPOSE 9000
 
 # Start PHP-FPM
 # CMD ["php-fpm"]
-CMD ["php", "-S", "0.0.0.0:10000", "-t", "public"]
+CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
