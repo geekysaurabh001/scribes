@@ -29,4 +29,5 @@ RUN composer dump-autoload --optimize
 EXPOSE 10000
 
 # Start PHP-FPM
-CMD ["php-fpm"]
+# CMD ["php-fpm"]
+CMD ["php", "-S", "0.0.0.0:10000", "-t", "public"]
