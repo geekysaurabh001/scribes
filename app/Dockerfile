@@ -28,8 +28,8 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # Expose the required port for Render (10000)
-EXPOSE 10000
+EXPOSE 9000
 
 # Start PHP-FPM
 # CMD ["php-fpm"]
-CMD ["php", "-S", "0.0.0.0:10000", "-t", "public"]
+CMD ["php", "-S", "0.0.0.0:9000", "-t", "public"]
